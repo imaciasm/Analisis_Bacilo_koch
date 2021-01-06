@@ -1,6 +1,5 @@
 
 
-
 def clases_listado(clases, orfs, descriptions, listado):
     """
     Dado un listado de patrones busca las clases las

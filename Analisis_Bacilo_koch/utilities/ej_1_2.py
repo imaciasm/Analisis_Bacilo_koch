@@ -1,10 +1,10 @@
 
-
 def freq_clase(descripcion, frq_clase_orf, ficheros):
     """
     Busca cuantos clases tienen al menos 1 ORF
     con la descripcion indicada
 
+    :param ficheros: str - Path al fichero de datos
     :param descripcion: str-descripcion que buscar
     :param frq_clase_orf: dict-diccionario con clase:frequencia
     :return: freq: int-frequencia de la clase

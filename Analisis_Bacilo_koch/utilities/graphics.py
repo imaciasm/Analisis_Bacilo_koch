@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 
+
 def plot(dictionary):
     """
     Plot de los keys y los valores del diccionarios

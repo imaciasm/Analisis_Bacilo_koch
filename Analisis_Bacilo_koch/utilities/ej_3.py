@@ -1,5 +1,3 @@
-
-
 def multiple(clases):
     """
     Busca la relacion entre cada numero del 2-9
@@ -10,7 +8,7 @@ def multiple(clases):
     y el numero de clases que tienen un dimension multiple de M y != 0
     """
     dict = {}
-    for i in range(2,10):
+    for i in range(2, 10):
         aptos = []
         for clase in clases:
             for dimension in clase:

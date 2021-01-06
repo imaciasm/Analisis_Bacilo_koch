@@ -2,11 +2,12 @@ import unittest
 from Analisis_Bacilo_koch.main import FICHEROS
 from Analisis_Bacilo_koch.utilities.ej_1_1 import count_clases_orfs
 from Analisis_Bacilo_koch.utilities.ej_1_2 import freq_clase
-from Analisis_Bacilo_koch.utilities.ej_2_1 import  clases_listado
+from Analisis_Bacilo_koch.utilities.ej_2_1 import clases_listado
 from Analisis_Bacilo_koch.utilities.ej_2_2 import promedio_orf
 from Analisis_Bacilo_koch.utilities.ej_3 import multiple
 
 ficheros = FICHEROS
+
 
 class TestAnalisisBaciloKoch(unittest.TestCase):
 
@@ -57,6 +58,7 @@ class TestAnalisisBaciloKoch(unittest.TestCase):
         result, orfs, clases, descriptions = count_clases_orfs(ficheros)
         aptos = multiple(clases)
         self.assertEqual(aptos[9], 3)
+
 
 if __name__ == '__main__':
     unittest.main()

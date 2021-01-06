@@ -1,11 +1,12 @@
 import os
 import glob
 
+
 def promedio_orf(patron_orfs):
     """
     Funcion que busca cuantos ORF están relacionados con otro
 
-    :param orfs: list - lista de orfs
+    :param patron_orfs: list - lista de orfs
     :return: resultado: dict - relacion entre cada ORF y el numero de ORFS correlacionados
     con este
     """
