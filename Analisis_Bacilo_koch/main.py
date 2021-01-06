@@ -6,6 +6,7 @@ from Analisis_Bacilo_koch.utilities.ej_2_1 import  clases_listado
 from Analisis_Bacilo_koch.utilities.ej_2_2 import promedio_orf
 from Analisis_Bacilo_koch.utilities.ej_3 import multiple, print_bonito
 
+FICHEROS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data/tb_functions.pl")
 
 
 def main():
@@ -14,7 +15,7 @@ def main():
 
     :return: None
     """
-    ficheros = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data/tb_functions.pl")
+    ficheros = FICHEROS
 
     #1.1
     result, orfs, clases, descriptions = count_clases_orfs(ficheros)

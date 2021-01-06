@@ -1,5 +1,12 @@
 import unittest
-from Analisis_Bacilo_koch.main import multiple, promedio_orf,clases_listado, count_clases_orfs, ficheros, freq_clase
+from Analisis_Bacilo_koch.main import FICHEROS
+from Analisis_Bacilo_koch.utilities.ej_1_1 import count_clases_orfs
+from Analisis_Bacilo_koch.utilities.ej_1_2 import freq_clase
+from Analisis_Bacilo_koch.utilities.ej_2_1 import  clases_listado
+from Analisis_Bacilo_koch.utilities.ej_2_2 import promedio_orf
+from Analisis_Bacilo_koch.utilities.ej_3 import multiple
+
+ficheros = FICHEROS
 
 class TestAnalisisBaciloKoch(unittest.TestCase):
 
@@ -10,7 +17,7 @@ class TestAnalisisBaciloKoch(unittest.TestCase):
 
     def test_1_2(self):
         result, orfs, clases, descriptions = count_clases_orfs(ficheros)
-        frq, clase = freq_clase("Pentose phosphate pathway ", result)
+        frq, clase = freq_clase("Pentose phosphate pathway ", result, ficheros)
         self.assertEqual(frq, 11)
         self.assertEqual(clase, '1250')
 
