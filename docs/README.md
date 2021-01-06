@@ -1,7 +1,5 @@
-## Instalar:
-    - git clone https://github.com/imaciasm/Analisis_Bacilo_koch.gits
+## Get Started:
+    - git clone https://github.com/imaciasm/Analisis_Bacilo_koch.git
     - cd Analisis_Bacilo_koch
-    - python setup.py install
-
-## Correrlo:
-    - python -m Analisis_Bacilo_koch.main
+    - bash run_test.sh (coverage)
+    - python3 Analisis_Bacilo_koch/main.py

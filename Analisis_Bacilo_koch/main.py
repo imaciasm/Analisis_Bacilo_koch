@@ -11,9 +11,8 @@ def count_clases_orfs(fichero):
     """
     Dado un fichero saca un diccionario con clase: numero_orfs
 
-    Primero, será necesario que leáis los archivos facilitados de la forma más óptima teniendo en cuenta las tareas pedidas. Tendréis que justificar vuestra decisión
-    Leemos el fichero linea a linea porque no tiene un formato tabla, cada linea es diferente y hay que elegir cual queremos y cual no.
-
+    Leemos el fichero linea a linea porque no tiene un formato tabla,
+    cada linea es diferente y hay que elegir cual queremos y cual no.
 
     :param fichero: str - Path al fichero de datos
     :return: result: dict - Relacion entre las clases y el numero de ORF con esa clase
@@ -68,14 +67,13 @@ def freq_clase(descripcion, frq_clase_orf):
                 numb3 = line.split(",")[2]
                 numb4 = line.split(",")[3].strip("]")
                 clase = numb1 + numb2 + numb3 + numb4
-                print(clase)
                 break
     return frq_clase_orf[clase], clase
 
 def clases_listado(clases, orfs, descriptions, listado):
     """
     Dado un listado de patrones busca las clases las
-    clases que contienen ORFs con esa dexcripcion y
+    clases que contienen ORFs con esa descripcion y
     sus ORFS
 
     :param clases: lista de todas las clases
@@ -85,16 +83,20 @@ def clases_listado(clases, orfs, descriptions, listado):
     :return: clases_escogidas: list - clases con ORFS con el patron
              ORFS_escogidos: list - ORFS con el menos un patron de los listados
     """
-    clases_escogias = []
-    orfs_escogidos = []
-    for clase, orf, description in zip(clases, orfs, descriptions):
-        for patron in listado:
-            if patron in description:
-                clases_escogias.append(clase)
-                orfs_escogidos.append(orf)
-    return set(clases_escogias), set(orfs_escogidos)
+    clases_escogidas = {}
+    orfs_escogidos = {}
+    for patron in listado:
+        clases_patron = []
+        orfs_patron = []
+        for clase, orf, description in zip(clases, orfs, descriptions):
+            if patron.lower() in description:
+                clases_patron.append(clase)
+                orfs_patron.append(orf)
+        clases_escogidas[patron] = len(set(clases_patron))
+        orfs_escogidos[patron] = set(orfs_patron)
+    return clases_escogidas, orfs_escogidos
 
-def promedio_orf(orfs):
+def promedio_orf(patron_orfs):
     """
     Funcion que busca cuantos ORF están relacionados con otro
 
@@ -105,26 +107,27 @@ def promedio_orf(orfs):
     ficheros = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data/orfs/tb_data*")
     files = glob.glob(ficheros)
     resultado = {}
-    for orf in orfs:
-        for file in files:
-            with open(file, "r") as f:
-                lines_original = f.readlines()
-                lines = "".join(lines_original)
-                if f"begin(model({orf}))" in lines:
-                    counter_orf_correl = 0
-                    found_begining = False
-                    found_ending = False
-                    for line in lines_original:
-                        if f"begin(model({orf}))" in line:
-                            found_begining = True
-                        if f"end(model({orf}))" in line:
-                            found_ending = True
-                        if found_begining and not found_ending:
-                            if "tb_to_tb_evalue" in line:
-                                counter_orf_correl += 1
-                else:
-                    continue
-        resultado[orf] = counter_orf_correl
+    for patron, orfs in patron_orfs.items():
+        for orf in orfs:
+            for file in files:
+                with open(file, "r") as f:
+                    lines_original = f.readlines()
+                    lines = "".join(lines_original)
+                    if f"begin(model({orf}))" in lines:
+                        counter_orf_correl = 0
+                        found_begining = False
+                        found_ending = False
+                        for line in lines_original:
+                            if f"begin(model({orf}))" in line:
+                                found_begining = True
+                            if f"end(model({orf}))" in line:
+                                found_ending = True
+                            if found_begining and not found_ending:
+                                if "tb_to_tb_evalue" in line:
+                                    counter_orf_correl += 1
+                    else:
+                        continue
+            resultado[patron] = counter_orf_correl
     return resultado
 
 def multiple(clases):
@@ -145,7 +148,7 @@ def multiple(clases):
                 is_multiple = dimension % i == 0
                 if is_multiple and dimension != 0:
                     aptos.append(clase)
-        dict[i] = aptos
+        dict[i] = len(set(aptos))
     return dict
 
 
@@ -157,7 +160,7 @@ def print_bonito(dict):
     :return: None
     """
     for key, values in dict.items():
-        print(f"M={key}: {len(values)} clases")
+        print(f"M={key}: {values} clases")
 
 
 def main():
@@ -166,21 +169,28 @@ def main():
 
     :return: None
     """
+    #1.1
     result, orfs, clases, descriptions = count_clases_orfs(ficheros)
     plot(result)
 
-    frq, clase = freq_clase("respiration", result)
+    #1.2
+    frq, clase = freq_clase("Pentose phosphate pathway ", result)
     print(format(f"Clase {clase} contiene {frq} ORFS"))
 
-    listado = ["cytochrome"]
-    clases_escogias, orfs_escogidos = clases_listado(clases, orfs, descriptions, listado)
-    print(f"El numero de clases con al menos un ORF con al menos un patron de los listados es: {len(clases_escogias)}")
+    #2.1
+    listado = ["electron", "subunit"]
+    clases_escogidas, orfs_escogidos = clases_listado(clases, orfs, descriptions, listado)
+    plot(clases_escogidas)
 
+    #2.2
     resultado = promedio_orf(orfs_escogidos)
     plot(resultado)
 
+    #3
     aptos = multiple(clases)
+    plot(aptos)
     print_bonito(aptos)
+
 
 
 
